@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEAD-LINE II · Mod Loader</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./theme/love.css">
+  <script src="./launcher.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="masthead">
+      <h1>DEAD-LINE <span>II</span></h1>
+      <p>Mod Loader</p>
+    </header>
+
+    <form id="launcher" class="panel">
+      <h2>Mods</h2>
+      <fieldset id="bundled" disabled>
+        <legend class="sr-only">Site mods</legend>
+        <div id="catalog" class="catalog"></div>
+      </fieldset>
+      <div class="local">
+        <label for="local-mods">Load local mods</label>
+        <input id="local-mods" type="file" accept=".lua" multiple>
+        <p>Choose trusted Lua files. They run for this session only.</p>
+      </div>
+      <button id="launch" type="submit" disabled>Launch game</button>
+    </form>
+
+    <section id="player" hidden aria-label="Game">
+      <div id="player-controls" class="toolbar">
+        <a href="./">Back to mods</a>
+        <button type="button" id="fullscreen" disabled>Fullscreen</button>
+      </div>
+      <div id="game-display">
+        <canvas id="canvas" tabindex="-1" hidden aria-label="DEAD-LINE II game"></canvas>
+      </div>
+    </section>
+    <p id="status" role="status"></p>
+    <ul id="errors" aria-label="Mod errors" aria-live="polite" hidden></ul>
+
+    <footer>Game by rasen46 · <a href="https://github.com/Davidobot/love.js">Powered by love.js</a></footer>
+  </main>
+</body>
+</html>

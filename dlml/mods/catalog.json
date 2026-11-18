@@ -1,0 +1,9 @@
+[
+  {
+    "id": "practice-hud",
+    "title": "Practice HUD",
+    "description": "Numeric HP, clearer combo counts and callouts, FPS, frame time, and a floor attempt timer.",
+    "file": "practice-hud.lua",
+    "enabledByDefault": true
+  }
+]
