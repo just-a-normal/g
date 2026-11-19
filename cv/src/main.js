@@ -12,6 +12,7 @@ const themeButton = document.querySelector('#theme-toggle');
 const settingsLink = document.querySelector('.settings-link');
 const importInput = document.querySelector('#import-file');
 const dialog = document.querySelector('#solution-dialog');
+const skipLink = document.querySelector('.skip-link');
 const problemKey = (topic, problem) => topic.id + '/' + problem.id;
 const keys = new Set(topics.flatMap(topic => topic.problems.map(problem => problemKey(topic, problem))));
 const progress = createProgress(keys, announce);
@@ -50,7 +51,7 @@ themeButton.addEventListener('click', () => {
   saveTheme(theme);
 });
 
-document.querySelector('.skip-link').addEventListener('click', event => {
+skipLink.addEventListener('click', event => {
   event.preventDefault();
   main.focus();
 });
@@ -350,3 +351,6 @@ window.addEventListener('keydown', event => {
 
 applyAppearance();
 render(false);
+skipLink.hidden = false;
+document.querySelector('.site-header').hidden = false;
+document.querySelector('.site-footer').hidden = false;
