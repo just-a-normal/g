@@ -16,10 +16,10 @@
   --bad-bg: #fff;
   --warn: #000;
   --warn-bg: #fff;
-  --syntax-keyword: #000;
-  --syntax-string: #000;
-  --syntax-number: #000;
-  --syntax-type: #000;
+  --syntax-keyword: #8f336c;
+  --syntax-string: #286448;
+  --syntax-number: #6440ad;
+  --syntax-type: #33568a;
 
   & body { line-height: 1.3; }
   & .container { width: calc(100% - 24px); }

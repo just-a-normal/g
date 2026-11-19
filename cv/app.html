@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-layout="classic">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Practice Java with short coding exercises, instant test results, and progress saved in your browser.">
+  <meta name="theme-color" content="#ffffff">
+  <title>CodingVampire · Java practice</title>
+  <link rel="icon" href="./fangs.svg" type="image/svg+xml">
+  <style>
+    #startup { max-width: 38rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const startup = document.getElementById('startup');
+      if (!startup) return;
+      const fromDisk = window.location.protocol === 'file:';
+      startup.querySelector('h1').textContent = fromDisk ? 'Open CodingVampire over HTTP' : 'CodingVampire could not start';
+      startup.querySelector(fromDisk ? '#startup-file' : '#startup-host').hidden = false;
+    }, { once: true });
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main" hidden>Skip to content</a>
+  <header class="site-header" hidden>
+    <div class="container header-row">
+      <a class="brand" href="#/" aria-label="CodingVampire home">
+        <span class="brand-icon" aria-hidden="true"><i></i><i></i></span>
+        <span>Coding<span class="brand-accent">Vampire</span></span>
+      </a>
+      <div class="header-actions">
+        <span class="header-progress"><span aria-hidden="true">✓</span> <strong id="overall"></strong> solved</span>
+        <div class="transfer-actions">
+          <button class="button small" id="export-progress" type="button">Export <span>progress</span></button>
+          <button class="button small" id="import-progress" type="button">Import <span>progress</span></button>
+          <input id="import-file" type="file" accept=".json,application/json" hidden>
+        </div>
+        <button class="button small theme-button" id="theme-toggle" type="button" hidden></button>
+      </div>
+    </div>
+    <div class="container nav-row">
+      <nav class="site-nav" aria-label="Main">
+        <a class="java-tab" href="#/">Java</a>
+        <a class="settings-link" href="#/settings">Settings</a>
+      </nav>
+      <span class="nav-note">Java 17</span>
+    </div>
+  </header>
+  <div id="notice" class="notice container" role="status" hidden></div>
+  <main id="main" class="container main" tabindex="-1">
+    <div id="startup">
+      <h1>CodingVampire</h1>
+      <p id="startup-file" hidden>To run the app locally, open a terminal in the project folder and run <code>npm ci</code>, then <code>npm start</code>. This opens the site in your browser.</p>
+      <p id="startup-host" hidden>Check that the site serves the complete <code>dist/</code> folder, including its <code>assets/</code> directory. For a local checkout, run <code>npm ci</code>, then <code>npm start</code>.</p>
+      <noscript><p>Enable JavaScript and reload to load the Java exercises.</p></noscript>
+    </div>
+  </main>
+  <footer class="container site-footer" hidden>
+    <span>Progress is saved in this browser.</span>
+    <a href="https://cheerpj.com/" target="_blank" rel="noopener noreferrer">Built with CheerpJ</a>
+  </footer>
+  <dialog id="solution-dialog" aria-labelledby="solution-heading">
+    <form method="dialog" class="dialog-heading">
+      <h2 id="solution-heading">Reference solution</h2>
+      <button class="button small" autofocus>Close</button>
+    </form>
+    <pre><code id="reference-code"></code></pre>
+  </dialog>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
