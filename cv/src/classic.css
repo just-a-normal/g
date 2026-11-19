@@ -1,0 +1,94 @@
+:root[data-layout="classic"] {
+  color-scheme: light;
+  font-family: "Times New Roman", Times, serif;
+  --bg: #fff;
+  --surface: #fff;
+  --quiet: #fff;
+  --ink: #000;
+  --muted: #000;
+  --line: #000;
+  --accent: #000;
+  --accent-strong: #000;
+  --accent-wash: #fff;
+  --good: #000;
+  --good-bg: #fff;
+  --bad: #000;
+  --bad-bg: #fff;
+  --warn: #000;
+  --warn-bg: #fff;
+  --syntax-keyword: #000;
+  --syntax-string: #000;
+  --syntax-number: #000;
+  --syntax-type: #000;
+
+  & body { line-height: 1.3; }
+  & .container { width: calc(100% - 24px); }
+  & .site-header { border-top: 0; }
+  & .header-row { min-height: 0; padding-block: .7rem; gap: .6rem; flex-wrap: wrap; }
+  & .brand { display: inline; font-size: 1.9rem; font-weight: 700; letter-spacing: normal; }
+  & .brand-icon, & .nav-note { display: none; }
+  & .header-progress { margin-right: .15rem; }
+  & .button {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 0;
+    color: #000;
+    font-weight: normal;
+    min-height: 0;
+    padding: .25rem .5rem;
+  }
+  & .button:hover:not(:disabled) { text-decoration: underline; }
+  & .button:disabled, & .button[aria-disabled="true"] { opacity: 1; border-style: dotted; }
+  & .java-tab { min-height: 0; border: 1px solid #000; border-bottom: 0; border-radius: 0; box-shadow: none; padding: .25rem 1rem; }
+  & .site-nav a { font: inherit; text-decoration: underline; }
+  & .settings-link[aria-current="page"] { font-weight: bold; }
+  & .main { padding-top: 1rem; }
+  & h1 { font: bold 1.65rem/1.2 "Times New Roman", Times, serif; letter-spacing: normal; }
+  & .page-intro { margin-bottom: 1rem; }
+  & .section-heading { margin-bottom: .45rem; padding-bottom: .25rem; }
+  & .section-heading h2 { letter-spacing: normal; }
+  & .track + .track { margin-top: 1rem; }
+  & .topic-grid { max-width: 1100px; gap: .5rem; }
+  & .topic-card { border-radius: 0; padding: .45rem .65rem; }
+  & .topic-card:hover { box-shadow: none; outline: 1px solid; }
+  & .topic-card h3 { font-size: 1.1rem; font-weight: bold; letter-spacing: normal; text-decoration: underline; }
+  & .topic-card p { line-height: 1.25; margin-block: .2rem .4rem; }
+  & .meter { max-width: 20rem; }
+  & progress { background: #fff; border: 1px solid #000; border-radius: 0; height: .35rem; }
+  & progress::-webkit-progress-value { border-radius: 0; }
+  & progress::-moz-progress-bar { border-radius: 0; }
+  & .problem-list { max-width: 920px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem 1rem; }
+  & .problem-list a { border: 0; border-radius: 0; justify-content: flex-start; padding: .2rem 0; }
+  & .problem-list code { text-decoration: underline; }
+  & .problem-status, & .difficulty { border: 0; border-radius: 0; padding: 0; }
+  & .problem-status.solved, & .problem-status.attempted { font-weight: bold; }
+  & .problem-title { gap: .75rem; }
+  & .difficulty::before { content: "["; }
+  & .difficulty::after { content: "]"; }
+  & .workspace-nav { justify-content: flex-start; margin-top: .3rem; gap: .65rem; }
+  & .workspace-nav .button { background: none; border: 0; padding: 0; font-size: .875rem; }
+  & .workspace-nav a { text-decoration: underline; }
+  & .workspace-nav button:disabled { text-decoration: line-through; }
+  & .examples { padding: .2rem 0; border: 0; border-radius: 0; }
+  & summary { text-decoration: underline; }
+  & .workspace-panel, & .appearance-setting, & .notice, & dialog { border-radius: 0; }
+  & .workspace-panel { overflow: visible; }
+  & .panel-heading { padding: .35rem .55rem; }
+  & .editor-actions { padding: .45rem .55rem; }
+  & .primary { min-width: 5rem; font-weight: bold; }
+  & .primary kbd { background: none; font-weight: normal; }
+  & .editor-host .cm-activeLine, & .editor-host .cm-gutters { background: #fff; }
+  & .editor-host .cm-editor .cm-selectionBackground,
+  & .editor-host .cm-editor.cm-focused .cm-selectionBackground { background: #0003; }
+  & .run-status { padding: .55rem; }
+  & .result-mark.fail { background: #000; color: #fff; }
+  & dialog::backdrop { background: #0008; }
+}
+
+@media (max-width: 850px) {
+  :root[data-layout="classic"] .problem-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 540px) {
+  :root[data-layout="classic"] .problem-list { grid-template-columns: minmax(0, 1fr); }
+}
