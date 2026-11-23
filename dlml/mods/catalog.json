@@ -5,5 +5,26 @@
     "description": "Numeric HP, clearer combo counts and callouts, FPS, frame time, and a floor attempt timer.",
     "file": "practice-hud.lua",
     "enabledByDefault": true
+  },
+  {
+    "id": "performance-mode",
+    "title": "Performance Mode",
+    "description": "Skip full-screen shaders, dynamic lighting, atmospheric effects, and lingering battlefield detail.",
+    "file": "performance-mode.lua",
+    "enabledByDefault": false
+  },
+  {
+    "id": "threat-radar",
+    "title": "Threat Radar",
+    "description": "Track nearby enemies and active bosses on a north-up radar.",
+    "file": "threat-radar.lua",
+    "enabledByDefault": false
+  },
+  {
+    "id": "precision-crosshair",
+    "title": "Precision Crosshair",
+    "description": "Use a higher-contrast aim point with a dive recharge ring.",
+    "file": "precision-crosshair.lua",
+    "enabledByDefault": false
   }
 ]

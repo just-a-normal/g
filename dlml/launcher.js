@@ -8,15 +8,57 @@ const launch = document.querySelector("#launch");
 const player = document.querySelector("#player");
 const gameDisplay = document.querySelector("#game-display");
 const canvas = document.querySelector("#canvas");
+const splash = document.querySelector("#splash");
+const splashStatus = document.querySelector("#splash-status");
 const fullscreen = document.querySelector("#fullscreen");
 const statusMessage = document.querySelector("#status");
 const errors = document.querySelector("#errors");
+const modList = document.querySelector("#mod-list");
+const modListItems = document.querySelector("#mod-list-items");
+let sessionMods = null;
 
 const modsURL = new URL("./mods/", document.baseURI);
 const preferenceKey = "dlml-v1:" + modsURL.pathname;
 const maxMods = 24;
 const maxBytes = 512 * 1024;
 const choices = [];
+
+function renderModList() {
+    const items = choices.map(({ entry, box }) => {
+        const live = sessionMods?.find((mod) => mod.entry === entry);
+        return [entry.title, entry.description, live?.state ??
+            (box.checked ? (sessionMods ? "Unavailable" : "Selected") : "Off")];
+    });
+    if (sessionMods) {
+        for (const mod of sessionMods) {
+            if (!mod.entry) items.push([mod.title, "Local mod", mod.state]);
+        }
+    } else {
+        for (const file of localMods.files) items.push([file.name, "Local mod", "Selected"]);
+    }
+    modListItems.replaceChildren();
+    if (items.length === 0) {
+        const empty = document.createElement("li");
+        empty.textContent = "No mods available.";
+        modListItems.append(empty);
+    }
+    for (const [title, description, state] of items) {
+        const item = document.createElement("li");
+        const name = document.createElement("strong");
+        const badge = document.createElement("span");
+        const detail = document.createElement("small");
+        name.textContent = title;
+        badge.textContent = state;
+        detail.textContent = description;
+        item.append(name, badge, detail);
+        modListItems.append(item);
+    }
+}
+
+document.querySelector("#show-mods").addEventListener("click", () => {
+    renderModList();
+    modList.showModal();
+});
 
 function setStatus(message) {
     if (statusMessage.textContent !== message) statusMessage.textContent = message;
@@ -85,6 +127,7 @@ async function loadCatalog() {
         choices.push({ entry, box });
     }
     bundled.disabled = false;
+    if (modList.open) renderModList();
 }
 
 async function prepareRuntime() {
@@ -132,14 +175,15 @@ async function collectMods() {
         return { title: file.name, read: () => file.arrayBuffer() };
     });
     const siteFiles = selected.map(({ entry }) => ({
+        entry,
         title: entry.title,
         read: async () => (await fetchFile(new URL(entry.file, modsURL))).arrayBuffer()
     }));
     const candidates = [...localFiles, ...siteFiles];
-    const results = await Promise.allSettled(candidates.map(async ({ title, read }) => {
+    const results = await Promise.allSettled(candidates.map(async ({ title, entry, read }) => {
         const bytes = new Uint8Array(await read());
         if (bytes.length === 0 || bytes.length > maxBytes) throw new Error("The file must be 1 byte to 512 KB.");
-        return { title, bytes };
+        return { title, entry, bytes, state: "Loading" };
     }));
     return results.flatMap((result, index) => {
         if (result.status === "fulfilled") return [result.value];
@@ -153,10 +197,19 @@ function boot(mods) {
     const fail = (message) => setStatus("Game stopped. Return to the mod list to try again. " + message);
     const report = (line) => {
         console.log(line);
-        const match = line.match(/^\[DLML error (\d+)\] (.*)$/);
+        if (line === "[DLML ready]") {
+            splash.hidden = true;
+            fullscreen.disabled = !document.fullscreenEnabled;
+            if (!modList.open) canvas.focus({ preventScroll: true });
+            return;
+        }
+        const match = line.match(/^\[DLML (loaded|error) (\d+)\] (.*)$/);
         if (match) {
-            const name = mods[Number(match[1]) - 1]?.title ?? "Mod";
-            addError(name + ": " + match[2]);
+            const mod = mods[Number(match[2]) - 1];
+            if (!mod) return;
+            mod.state = match[1] === "loaded" ? "Active" : "Failed";
+            if (mod.state === "Failed") addError(mod.title + ": " + match[3]);
+            if (modList.open) renderModList();
         }
     };
 
@@ -174,20 +227,14 @@ function boot(mods) {
             mods.forEach(({ bytes }, index) => write("dlml-mod-" + (index + 1) + ".lua", bytes));
         }],
         setStatus: (message) => {
-            if (message && !canvas.hidden) return;
-            setStatus(message);
+            if (message && !splash.hidden) splashStatus.textContent = message;
         },
-        onRuntimeInitialized: () => {
-            setStatus("");
-            canvas.hidden = false;
-            fullscreen.disabled = !document.fullscreenEnabled;
-            canvas.focus({ preventScroll: true });
-        },
+        onRuntimeInitialized: () => { canvas.hidden = false; },
         onAbort: fail
     };
 
     window.addEventListener("error", (event) => {
-        if (event.message && (canvas.hidden || event.message.includes("Aborted"))) fail(event.message);
+        if (event.message && (!splash.hidden || event.message.includes("Aborted"))) fail(event.message);
     });
     canvas.addEventListener("webglcontextlost", (event) => {
         event.preventDefault();
@@ -218,7 +265,9 @@ launcher.addEventListener("submit", async (event) => {
         launcher.hidden = true;
         player.hidden = false;
         document.body.classList.add("playing");
-        setStatus("Loading DEAD-LINE II…");
+        setStatus("");
+        splash.hidden = false;
+        sessionMods = mods;
         boot(mods);
         await loadScript("./game.js");
         await loadScript("./love.js");

@@ -35,13 +35,31 @@
         <button type="button" id="fullscreen" disabled>Fullscreen</button>
       </div>
       <div id="game-display">
+        <div id="splash" hidden>
+          <strong aria-label="DEAD-LINE Mod Loader">DLML</strong>
+          <p id="splash-status" role="status">Loading DEAD-LINE II…</p>
+        </div>
         <canvas id="canvas" tabindex="-1" hidden aria-label="DEAD-LINE II game"></canvas>
       </div>
     </section>
     <p id="status" role="status"></p>
     <ul id="errors" aria-label="Mod errors" aria-live="polite" hidden></ul>
 
-    <footer>Game by rasen46 · <a href="https://github.com/Davidobot/love.js">Powered by love.js</a></footer>
+    <footer>
+      <span>Game by rasen46 · <a href="https://github.com/Davidobot/love.js">Powered by love.js</a></span>
+      <div class="build-info">
+        <span>Game v1.2</span>
+        <span>DLML v1.0.1</span>
+        <button id="show-mods" type="button" aria-haspopup="dialog">Mods</button>
+      </div>
+    </footer>
+    <dialog id="mod-list" aria-labelledby="mod-list-title">
+      <form method="dialog">
+        <h2 id="mod-list-title">Mods</h2>
+        <button type="submit" autofocus>Close</button>
+      </form>
+      <ul id="mod-list-items"></ul>
+    </dialog>
   </main>
 </body>
 </html>
