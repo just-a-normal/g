@@ -13,7 +13,7 @@ const colors = HighlightStyle.define([
   { tag: tags.comment, color: 'var(--muted)', fontStyle: 'italic' }
 ]);
 
-export function makeEditor(parent, code, onChange) {
+export function makeEditor(parent, code, onChange, placeholderText = 'Write your Java method') {
   return new EditorView({
     parent,
     state: EditorState.create({
@@ -22,7 +22,7 @@ export function makeEditor(parent, code, onChange) {
         java(), lineNumbers(), history(), drawSelection(), highlightActiveLine(),
         indentOnInput(), bracketMatching(), indentUnit.of('    '), EditorState.tabSize.of(4),
         keymap.of([indentWithTab, ...defaultKeymap, ...historyKeymap]),
-        syntaxHighlighting(colors), placeholder('Write your Java method'),
+        syntaxHighlighting(colors), placeholder(placeholderText),
         EditorView.contentAttributes.of({ 'aria-label': 'Java code editor', spellcheck: 'false' }),
         EditorView.lineWrapping,
         EditorView.updateListener.of(update => { if (update.docChanged) onChange(update.state.doc.toString()); })

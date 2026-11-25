@@ -20,12 +20,12 @@ npm run build
 npm run preview
 ```
 
-The deployable files are in `dist/`. Serve them over HTTP or HTTPS with byte-range support for `browser-judge.jar`. The Java runner loads CheerpJ 5.0 and its OpenJDK 17 assets from Leaning Technologies on demand. See [CheerpJ licensing and attribution](https://cheerpj.com/docs/licensing).
+The deployable files are in `dist/`. Serve them over HTTP or HTTPS with byte-range support for `java-runtime.jar`. The Java runner loads CheerpJ 5.0 and its OpenJDK 17 assets from Leaning Technologies on demand. See [CheerpJ licensing and attribution](https://cheerpj.com/docs/licensing).
 
 ## Deploy to GitHub Pages
 
 1. Create an empty GitHub repository named **NAME.github.io** for a user or organization site at **https://NAME.github.io/**. For a project site at **https://NAME.github.io/repo-name/**, name the repository **repo-name** instead. Replace **NAME** with your GitHub account or organization name.
-2. Commit the source files, including `.github/workflows/pages.yml`, `package-lock.json`, and `public/browser-judge.jar`. Push the source to GitHub on the `main` branch. The following commands apply to a local checkout that has no `origin` yet.
+2. Commit the source files, including `.github/workflows/pages.yml`, `package-lock.json`, and `public/java-runtime.jar`. Push the source to GitHub on the `main` branch. The following commands apply to a local checkout that has no `origin` yet.
 
    ```sh
    git add .
@@ -42,11 +42,13 @@ The same build works at both URL layouts. Vite uses `base: './'` and hash routes
 
 ### Publish within an existing Pages site
 
-If your Pages repository serves a collection of sites from a branch, build CodingVampire with `npm ci` and `npm run build` inside its source directory. Copy the **contents** of `dist/` into the published subdirectory (for example, `cv/` in the Pages source branch). Commit the generated `cv/index.html`, `cv/assets/`, `cv/browser-judge.jar`, `cv/java-worker.js`, and `cv/fangs.svg`. Keep `app.html` as the Vite source template and rebuild after source changes. This keeps the site at paths such as `/g/cv/` and leaves the other sites in the repository in place.
+If your Pages repository serves a collection of sites from a branch, build CodingVampire with `npm ci` and `npm run build` inside its source directory. Copy the **contents** of `dist/` into the published subdirectory (for example, `cv/` in the Pages source branch). Commit the generated `cv/index.html`, `cv/assets/`, `cv/java-runtime.jar`, `cv/runtime-worker.js`, and `cv/fangs.svg`. Keep `app.html` as the Vite source template and rebuild after source changes. This keeps the site at paths such as `/g/cv/` and leaves the other sites in the repository in place.
 
 ## Practice and progress
 
 The monochrome Classic layout is on by default, with syntax colors in the Java editor. Open **Settings** and turn off **Classic layout** to use the modern design and its light or dark theme. The browser remembers your layout choice.
+
+Open **Sandbox** to run a Java 17 program from a single editor. Include a `public static void main(String[] args)` method. The console shows standard output, standard error, and diagnostics. Use **Program input** to supply text for `System.in` before the run. The draft is saved separately from practice progress.
 
 Press **Go**, **Ctrl+Enter**, or **Cmd+Enter** to compile the method. A run displays expected and actual values, per-case status, and stack traces for visible cases that throw. Hidden cases display a combined result. Since all content is shipped as static files, hidden cases and reference solutions are inspectable in the browser.
 

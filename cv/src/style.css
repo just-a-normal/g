@@ -195,3 +195,7 @@ dialog pre { padding: .9rem; overflow: auto; max-height: 60vh; white-space: pre-
 .appearance-setting label { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; cursor: pointer; }
 .appearance-setting input { margin: 0; width: 1rem; height: 1rem; accent-color: var(--accent); cursor: pointer; }
 .appearance-setting p { margin: .35rem 0 0; color: var(--muted); }
+
+.sandbox-input { border-top: 1px solid var(--line); padding: .55rem .75rem; font-size: .875rem; }
+.sandbox-input textarea { display: block; width: 100%; margin-top: .4rem; padding: .45rem; resize: vertical; background: var(--surface); color: var(--ink); border: 1px solid var(--line); font: .875rem var(--mono); }
+.sandbox-output { min-height: 9rem; max-height: 60vh; padding: .65rem .85rem; border-top: 1px solid var(--line); overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .875rem; }

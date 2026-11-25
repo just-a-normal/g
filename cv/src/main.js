@@ -4,12 +4,13 @@ import { topics, total, tracks } from '../problems/index.js';
 import { makeEditor } from './editor.js';
 import { createProgress, getClassicLayout, getTheme, saveClassicLayout, saveTheme } from './progress.js';
 import { cancelRun, runTests } from './runner.js';
+import { sandbox } from './sandbox.js';
 
 const main = document.querySelector('#main');
 const overall = document.querySelector('#overall');
 const notice = document.querySelector('#notice');
 const themeButton = document.querySelector('#theme-toggle');
-const settingsLink = document.querySelector('.settings-link');
+const siteLinks = document.querySelectorAll('.site-nav a');
 const importInput = document.querySelector('#import-file');
 const dialog = document.querySelector('#solution-dialog');
 const skipLink = document.querySelector('.skip-link');
@@ -311,19 +312,27 @@ function resultsTable(tests, results) {
 function render(moveFocus = true) {
   disposeWorkspace?.();
   disposeWorkspace = undefined;
+  activeRun = undefined;
   const route = location.hash.slice(1) || '/';
   const parts = route.split('/').slice(1);
   const topic = topics.find(item => item.id === parts[0]);
   const problem = topic?.problems.find(item => item.id === parts[1]);
   syncProgress();
-  if (route === '/settings') settingsLink.setAttribute('aria-current', 'page');
-  else settingsLink.removeAttribute('aria-current');
+  siteLinks.forEach(link => {
+    if (link.hash === '#' + route) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
   if (route === '/') {
     main.innerHTML = home();
     document.title = 'CodingVampire · Java practice';
   } else if (route === '/settings') {
     settings();
     document.title = 'Settings · CodingVampire';
+  } else if (route === '/sandbox') {
+    const workspace = sandbox(main);
+    activeRun = workspace.run;
+    disposeWorkspace = workspace.dispose;
+    document.title = 'Java Sandbox · CodingVampire';
   } else if (topic && parts.length === 1) {
     main.innerHTML = category(topic);
     document.title = topic.name + ' · CodingVampire';

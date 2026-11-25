@@ -37,7 +37,7 @@ try {
     return directory;
   });
 
-  const run = spawnSync('java', ['-cp', 'public/browser-judge.jar', 'codingvampire.BrowserJudge', ...folders],
+  const run = spawnSync('java', ['-cp', 'public/java-runtime.jar', 'codingvampire.BrowserJudge', ...folders],
     { encoding: 'utf8', timeout: 120_000 });
   if (run.error) throw run.error;
   assert.equal(run.status, 0, run.stderr);
@@ -63,6 +63,11 @@ try {
   }
   assert.equal(failures.length, 0, failures.join('\n'));
   console.log('Verified ' + (jobs.length - 3) + ' Java solutions and ' + testCount + ' test cases, plus compiler, exception, and wrong-answer handling.');
+  const sandbox = spawnSync('java', ['-cp', 'public/java-runtime.jar', 'java/SandboxChecks.java'],
+    { encoding: 'utf8', timeout: 120_000 });
+  if (sandbox.error) throw sandbox.error;
+  assert.equal(sandbox.status, 0, sandbox.stderr);
+  console.log(sandbox.stdout.trim());
 } finally {
   rmSync(temp, { recursive: true, force: true });
 }
